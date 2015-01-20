@@ -1,0 +1,115 @@
+Preliminaires
+De base
+ 
+Si l'un de ces points est vrai, alors la soutenance est immédiatement
+terminée, et le groupe a 0.
+ 
+- Pas de rendu (= rien dans le dépôt git)
+- Pas de fichier auteur
+- Fichier auteur invalide
+- Faute de norme (par la norminette)
+- Triche ou fonctions interdites
+ 
+Durant le reste de la soutenance, si le programme a un comportement inapproprié (segfault, buserror, ...) la soutenance s'arrete.
+ Yes
+ No
+Le shell
+Testons les principales features de votre sh1.
+ 
+Fork et execve
+ 
+Fork et Execve sont au coeur de la base d'un shell minimaliste, tel que le ft_sh1.
+Si il n'y a pas ces 2 appels système, c'est qu'il y a un problème de compréhension du sujet. Avec la liste de fonctions autorisées, il n'y a pas d'autre solution.
+ 
+ Yes
+ No
+Les builtins
+ 
+Les fonctionnalites precedentes correspondent plus a un programme capable de faire un fork et un execve en boucle qu'a un shell digne de ce nom. Un shell, meme prehistorique, doit proposer certaines fonctionnalites.
+ 
+- cd
+- cd /path/to/dir
+- exit
+ Yes
+ No
+Gestion de l'environnement
+ 
+les builtins
+- env
+- setenv
+- unsetenv
+ 
+fonctionnent, modifient l'environnement et passent le bon environnement aux programmes qui sont executes.
+(verifier par ex avec /usr/bin/env au minimum) 					???WTF???
+ 
+ Yes
+ No
+Gestion du PATH
+ 
+L'execution des binaires avec un path complet fonctionne.
+( '/bin/ls' par ex)								???WTF???
+ 
+L'execution des binaires dans les répertoires du PATH fonctionne
+( 'ls' par ex)
+Essayer des binaires dans chaque répertoire que comporte le PATH.
+ 
+ Yes
+ No
+Shell fondamental
+ 
+Votre ft_sh1 doit pouvoir assurer ces fonctionalites de base :
+	
+- un prompt
+- Une commande simple, par exemple un simple ls
+- le shell attend la fin d'execution de la commande lancee pour re-afficher le prompt.
+- emacs (ou vim pour ceux qui ont des gouts douteux) fichier.c
+- ls /bin /boot /sbin /dev /home
+- /bin/ls (tester une commande avec un PATH complet)
+- commande inconnue (comme trucmachin) `Command not found' (ou un message d'erreur similaire)
+- commande connue mais pas dans le PATH						???WTF???
+ 
+Rappel : pas de pipe, ni de redirection.
+ 
+ Yes
+ No
+Gestion de la ligne de commande
+ 
+Les shell suivants, dont le 42sh, seront plus appropries pour des parser-lexer et autres facon compliquees d'analyser la ligne de commande.
+En revanche, un minimum de choses doit marcher.
+ 
+- Des espaces et/ou des tabulations un peu partout dans la ligne de commande ne perturbent pas l'execution de cette commande, de maniere similaire a sh, bash ou zsh
+- Une ligne de commande vide ne provoque pas d'erreur
+- Une ligne de commande vide avec des espaces ne provoque pas d'errueur
+ Yes
+ No
+Bonus
+Signal
+ 
+Ctrl-c ca marche ? ca arrete le programme ?
+ 
+ Yes
+ No
+Droits dans le PATH
+ /*???WTF??????WTF??????WTF??????WTF??????WTF??????WTF??????WTF??????WTF??????WTF??????WTF???
+Votre ft_sh1 cherche-t-il a executer des fichiers qui sont dans le PATH mais qui sont pas des binaires ? (avec les droits d'execution donc). Si c'est le cas, vous n'avez pas gagne les points et repondez alors non a cette question.
+ 
+ Yes
+ No
+Completion
+ 
+La completion marche-t-elle ?
+ 
+ Yes
+ No
+point virgule
+ 
+On peut separer plusieurs commandes sur une meme ligne avec un point-virgule.
+ 
+ Yes
+ No
+Autres features
+ 
+D'autres bonus ?
+par ex. gestion du tilde, une version simple de l'edition de la ligne (deja un backspace, eventuellement des fleches, ...)
+ ???WTF??????WTF??????WTF??????WTF??????WTF??????WTF??????WTF??????WTF??????WTF??????WTF???*/
+A noter que pas mal de features seront au menu du sh2, sh3, et 42sh.
