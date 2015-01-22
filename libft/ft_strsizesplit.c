@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/20 14:52:27 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/20 14:54:09 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/21 17:27:34 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 #include "libft.h"
 
 
-static char	*ft_strndup(const char *s, size_t length)
-{
-	char	*cpy;
-	size_t	i;
+// static char	*ft_strndup(const char *s, size_t length)
+// {
+// 	char	*cpy;
+// 	size_t	i;
 
-	i = 0;
-	if (length > ft_strlen(s))
-		length = ft_strlen(s);
-	cpy = (char *)malloc((length + 1) * sizeof(char));
-	while (i != length)
-	{
-		cpy[i] = s[i];
-		i++;
-	}
-	cpy[i] = '\0';
-	return (cpy);
-}
+// 	i = 0;
+// 	if (length > ft_strlen(s))
+// 		length = ft_strlen(s);
+// 	cpy = (char *)malloc((length + 1) * sizeof(char));
+// 	while (i != length)
+// 	{
+// 		cpy[i] = s[i];
+// 		i++;
+// 	}
+// 	cpy[i] = '\0';
+// 	return (cpy);
+// }
 
 
 static size_t	ft_strclen(const char *s, char c)
@@ -62,13 +62,13 @@ static char	**ft_restralloc(char **map, int length, size_t size)
 	return (map);
 }
 
-static char	*ft_strcdup(const char *s, char c)
-{
-	char	*cpy;
+// static char	*ft_strcdup(const char *s, char c)
+// {
+// 	char	*cpy;
 
-	cpy = ft_strndup(s, ft_strclen(s, c));
-	return (cpy);
-}
+// 	cpy = ft_strndup(s, ft_strclen(s, c));
+// 	return (cpy);
+// }
 
 
 char	**ft_strsizesplit(char const *s, char c, int *size)

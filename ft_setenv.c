@@ -6,20 +6,32 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/14 15:57:34 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/16 20:14:57 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/22 13:51:28 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh1.h"
 
-int		check_is_present(char *name, t_env var)
+extern char	**g_env;
+
+int 	lt_to_equ_sign(char *src)
 {
 	int i;
 
 	i = 0;
-	while(var.env[i])
+	while (src[i] != '=' && src[i])
+		i++;
+	return (i);
+}
+
+int		check_is_present(char *name)
+{
+	int i;
+
+	i = 0;
+	while(g_env[i] && g_env)
 	{
-		if (ft_strnequ(var.env[i], name, ft_strlen(name)))
+		if (ft_strnequ(g_env[i], name, lt_to_equ_sign(g_env[i])))
 			return (i);
 		i++;
 	}
@@ -42,62 +54,34 @@ char	**ft_restralloc_no_free(char **map, int length)
 	return (map);
 }
 
-t_env 	create_env(char *name, char *value, t_env var)
+int 	ft_count_env(void)
 {
 	int i;
-	int z;
-	char **cpy_plus_one;
 
 	i = 0;
-	z = var.size_env;
-	ft_putnbr(z);
-	ft_putstr("\n");
-	cpy_plus_one = (char **)malloc((var.size_env + 2) * sizeof(char*));
-	cpy_plus_one[(var.size_env + 1)] = NULL;
-	while(z > 0)
-	{
-		cpy_plus_one[i] = var.env[i];
+	while (g_env[i] && g_env)
 		i++;
-		z--;
-	}
-	cpy_plus_one[i] = (char *)malloc((ft_strlen(name) + ft_strlen(value) + 1) * sizeof(char));
-	cpy_plus_one[i][(ft_strlen(name) + ft_strlen(value))] = '\0';
-	cpy_plus_one[i] = ft_strjoin(name, value);
-	var.env = cpy_plus_one;
-	
-	return (var);
+	return (i);
 }
 
-t_env		run_setenv(char *name, char *value, int overwrite, t_env *var)
+void		run_setenv(char *name, char *value, int overwrite)
 {
 	int places_of_name;
-	(void)overwrite;
-	if ((places_of_name = check_is_present(name, *var)) != -1)
+
+	if ((places_of_name = check_is_present(name)) != -1)
 	{
-		
 		if (overwrite != 0)
 		{
-			var->env[places_of_name] = (char *)malloc((ft_strlen(name) + ft_strlen(value) + 1) * sizeof(char));
-			var->env[places_of_name][(ft_strlen(name) + ft_strlen(value) )] = '\0';
-			var->env[places_of_name] = ft_strjoin(name, value);
-			return(*var);
+			g_env[places_of_name] = ft_strjoin(name, "=");
+			g_env[places_of_name] = ft_strjoin(g_env[places_of_name], value);
 		}
-		if (overwrite == 0)
-			return (*var);
-		return (*var);
 	}
-	 else
+	else
 	{
-		ft_putendl("fs");
-		var->env = ft_restralloc_no_free(var->env, var->size_env);
-		var->env[var->size_env] = (char *)malloc((ft_strlen(name) + ft_strlen(value) + 1) * sizeof(char));
-		var->env[var->size_env][(ft_strlen(name) + ft_strlen(value) )] = '\0';
-		var->env[var->size_env] = ft_strjoin(name, value);
-		// run_env(*var);
-		//run_env(var.env);
-	 	// name non present donc il faut cree la valeur
-	 	// ne marche pas neccessite de faire la copie de env dans 1 tableau de tableau de 1 + grand
-	 	return (*var);
+		places_of_name = ft_count_env();
+		g_env = ft_restralloc_no_free(g_env, places_of_name);
+		g_env[places_of_name] = ft_strjoin(name, "=");
+		g_env[places_of_name] = ft_strjoin(g_env[places_of_name], value);
 	}
-	return (*var);
+	return ;
 }

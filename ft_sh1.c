@@ -6,12 +6,13 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 10:18:14 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/20 17:11:42 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/22 15:56:57 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh1.h"
 
+char	**g_env;
 // ptr2
 // contient tt les argument passe au shell
 // ls -l tryme
@@ -35,134 +36,9 @@
 // Peut etre faut il gere si cd recoit des option car non gere pour l instant
 
 
-void	run_env(t_env *var)
-{
-	int i;
 
-	i = 0;
-	while (var->env[i])
-	{
-		ft_putendl(var->env[i]);
-		i++;
-	}
-}
 
-char	*find_path_to_home(char **env)
-{
-	int i;
-	char *path_to_home;
-
-	i = 0;
-	while (ft_strnequ(env[i],"HOME",4) != 1 && env[i] != NULL)
-	 	i++;
-	path_to_home = ft_strdup(env[i] + 5);
-	if (!env[i])
-		return (NULL);
-	else
-		return (path_to_home);
-}
-
-int 	check_if_is_directory(char **ptr2)
-{
-	if (opendir(ptr2[1]) == NULL && ptr2[1] != NULL)
-		return (0);
-	else
-		return (1);
-}
-
-int 	check_if_is_two_file(t_env var)
-{
-	if (var.nb_arg == 3)
-		return (1);
-	return (0);
-}
-
-int 	check_if_is_more_file(t_env var)
-{
-	if (var.nb_arg > 3)
-		return (1);
-	return (0);
-}
-
-void	run_old_path(char **env)
-{
-	int i;
-	char *run_old_path;
-
-	i = 0;
-	while (ft_strnequ(env[i],"OLDPWD",6) != 1 && env[i] != NULL)
-	 	i++;
-	run_old_path = ft_strdup(env[i] + 7);
-	if (!env[i])
-		return ;
-	ft_putstr(run_old_path);
-	chdir(run_old_path);
-}
-
-t_env	set_old_path(t_env var)
-{
-	char *old_path;
-
-	old_path = NULL;
-	var = run_setenv("OLDPWD=", getcwd(old_path, 0), 1, &var);
-	return (var);
-}
-
-t_env 	run_cd(char **ptr2, t_env var)
-{
-	(void)ptr2;
-	char *path;
-	char *path_to_home;
-
-	if (check_if_is_more_file(var) == 1)
-	{
-		ft_putendl("cd: too many arguments");
-		return (var);
-	}
-	else if (check_if_is_two_file(var) == 1)
-	{
-		ft_putstr("cd : string not in pwd: ");
-		ft_putendl(ptr2[1]);
-		return (var);
-	}
-	 else if (check_if_is_directory(ptr2) == 0 && ptr2[1][0] != '~' && ptr2[1][0] != '-')
-	{
-		ft_putstr("cd : not a directory: ");
-		ft_putendl(ptr2[1]);
-		return (var);
-	}
-	path = (char*)malloc(1000 * sizeof(char));
-	if (path == NULL)
-	return (var);
-	path_to_home = find_path_to_home(var.env);
-	//ft_putstr(ptr2[1]);
-	if (ft_strequ(ptr2[1],"/"))
-		chdir("/");
-	else if (ft_strequ(ptr2[1],"-"))
-	{
-		run_old_path(var.env);
-		return (var);
-	}
-	var = set_old_path(var);
-	// ne marche pas si deux fois cd - a la suite
-	if (ptr2[1] == NULL || ft_strequ(ptr2[1],"~"))
-	{
-		path = ft_strdup(path_to_home);
-		chdir(path);
-	}
-	else
-	{
-		getcwd(path, 1000);
-		path = ft_strjoin(path,"/");
-		path = ft_strjoin(path,ptr2[1]);
-		//ptr2[1] = ft_strdup(path);
-		chdir(path);
-	}
-	free (path);
-	return (var);
-}
-
-void prompt(t_env var)
+void prompt(void)
 {
 	char *get_pwd;
 	char	*tmp;
@@ -170,14 +46,15 @@ void prompt(t_env var)
 	get_pwd = NULL;
 	get_pwd = getcwd(get_pwd, 0);
 	ft_putstr(C_MAGENTA);
-	ft_putstr(var.user);
+	if (find_env("USER") != NULL)
+		ft_putstr(find_env("USER"));
 	ft_putstr(C_NONE);
 	ft_putstr(" in ");
 	ft_putstr(C_CYAN);
-	if (ft_strstr(get_pwd, var.home))
+	if (ft_strstr(get_pwd, find_env("HOME")))
 	{
 		tmp = get_pwd;
-		get_pwd = ft_strdup(ft_strstr(get_pwd, var.home) + ft_strlen(var.home));
+		get_pwd = ft_strdup(ft_strstr(get_pwd, find_env("HOME")) + ft_strlen(find_env("HOME")));
 		free(tmp);
 		ft_putstr("~");
 	}
@@ -202,169 +79,97 @@ int 	nb_path(char *path)
 	return (nb + 1);
 }
 
-t_env	get_env_in_var(t_env var, char **env)
+int 	ft_exeve(char **all_path, char **ptr2, int i)
 {
-	var.env = env;
-	int i;
-
-	i = 0;
-	var.env = env;
-	while (env[i] != NULL)
-		i++;
-	var.size_env = i;
-	i = 0;
-	while (ft_strnequ(env[i],"HOME",4) != 1 && env[i] != NULL)
-	 	i++;
-	 if (env[i] != NULL)
-		var.home = ft_strdup(env[i] + 5);
-	// else
-	// 	var.home = NULL;
-	i = 0;
-	while (ft_strnequ(env[i],"USER",4) != 1 && env[i] != NULL)
-		i++;
-	 if (env[i] != NULL)
-		var.user = ft_strdup(env[i] + 5);
-	i = 0;
-	while (ft_strnequ(env[i],"PATH",4) != 1 && env[i] != NULL)
-		i++;
-	ft_putnbr(i);
-	if (i < var.size_env)
-	{
-	var.path = ft_strsplit(env[i] + 5, ':');
-	var.nb_path = nb_path(env[i] + 5);
-	}
-	else
-		var.path = NULL;
-	return (var);
-}
-
-void	print_var(t_env var)
-{
-	int i = 0 ;
-	ft_putendl(var.user);
-	ft_putendl(var.home);
-	ft_putnbr(var.size_env);
-	ft_putstr("\n");
-	ft_putnbr(var.nb_path);
-	ft_putstr("\n");
-	while(var.path[i] != NULL)
-	{	
-		ft_putendl(var.path[i]);
-		i++;
-	}
-}
-
-size_t		count_arg(char **ptr2)
-{
-	int i;
-
-	i = 0;
-	if (ptr2 == NULL)
-		return (0);
-	while (ptr2[i] && ptr2[i][0])
-		i++;
-	return(i);
-}
-
-t_env	run_shell(t_env var)
-{
-	char	*ptr;
-	char	**ptr2;
 	char	*cmd;
-	int 	i;
+	char	*tmp;
 	pid_t	father;
-	// // struct stat	stt;
-	var = get_env_in_var(var, var.env);
-	i = var.nb_path;
-	prompt(var);
-	if (get_next_line(0, &ptr) == -1)
-		ft_putendl_fd("Error GNL", 2);
-	ptr2 = ft_strsizesplit(ptr, ' ',&(var.nb_arg));
-	if (var.nb_arg == 0)
-		return (var);
-	if (ft_strequ(ptr2[0],"exit"))
-		exit(EXIT_SUCCESS);
-	else if (ft_strequ(ptr2[0],"cd"))
-		var = run_cd(ptr2, var);
-	else if (ft_strequ(ptr2[0],"setenv"))
+
+	while (i != 1 && all_path != NULL)
 	{
-		var = run_setenv(ptr2[1], ptr2[2], ft_atoi(ptr2[3]), &var);
-		return (var);
-	}
-	else if (ft_strequ(ptr2[0],"env"))
-	{
-		run_env(&var);
-	}
-	else if (ft_strequ(ptr2[0],"unsetenv"))
-	{
-		var = run_unsetenv(ptr2[1], ft_atoi(ptr2[2]), var);
-		return (var);
-	}
-	else if (ptr2[0] != NULL)
-	{
-		// father = fork();
-		// if (father > 0)
-		// 		wait(NULL);
-		// 	if (father == 0)
-		// {
-		while (i != 1 && var.path != NULL)
-		{
-			cmd = ft_strjoin(var.path[i - 1], "/"); 
-			cmd = ft_strjoin(cmd, ptr2[0]);
-			// if (lstat(cmd, &stt) == -1)
-			//  	return(var); 
-			if (access(cmd, X_OK) != -1)
-			{
-				father = fork();
-				if (father > 0)
-				wait(NULL);
-				if (father == 0)
-					execve(cmd, ptr2, var.env);
-				return (var);
-			}
-			free(cmd);
-			i--;
-		}
-		if (access(ptr2[0], X_OK) != -1)
+		cmd = ft_strjoin(all_path[i - 1], "/");
+		tmp = cmd;
+		cmd = ft_strjoin(cmd, ptr2[0]);
+		free (tmp);
+		if (access(cmd, X_OK) != -1)
 		{
 			father = fork();
 			if (father > 0)
-				wait(NULL);
+			wait(NULL);
 			if (father == 0)
 			{
-				execve(ptr2[0], ptr2, var.env); // si n existe pas ne doit pas lancer excve
-				return (var);
+				execve(cmd, ptr2, g_env);
+				
+			}
+			return 1;
+		}
+		free(cmd);
+		i--;
+	}
+	return (0);
+}
+
+void	run_shell(char **ptr2)
+{
+	
+	int 	i;
+	pid_t	father;
+	char 	**all_path;
+
+	all_path = ft_strsizesplit(find_env("PATH"), ':', &i);
+	if (access(ptr2[0], X_OK) != -1 )
+	{
+		father = fork();
+		if (father > 0)
+			wait(NULL);
+		if (father == 0)
+		{
+			if (execve(ptr2[0], ptr2, g_env) == -1)
+			{
+				ft_putstr_fd("ft_sh1: exec format error: ", 2);
+				ft_putendl_fd(ptr2[0], 2);
+				exit(EXIT_FAILURE);
 			}
 		}
-		else
-		{
+	}
+	else if (ft_exeve(all_path, ptr2, i) == 0)
+	{
 		ft_putstr_fd("ft_sh1: Command not found : ", 2);
 		ft_putendl_fd(ptr2[0], 2);
-		}
-	// }
 	}
+	return ;
+}
 
-	return (var);
+char	*unspace_it(char *ptr)
+{
+	int i;
+
+	i = 0;
+	while (ptr[i])
+	{
+		if (ft_is_space(ptr[i]) == 1)
+			ptr[i] = ' ';
+		i++;
+	}
+	return (ptr);
 }
 
 int main(int argc, char **argv, char **env)
 {
-	
-	t_env	var;
+	char	*ptr;
+	char	**ptr2;
+	int 	nb_arg;
 
-	(void)argc;
-	(void)argv;
-	var = get_env_in_var(var, env); // Recupere tt la structure et met dans t_env 
-	 // print_var(var);
+	ft_dup_env(env, argc, argv);
 	while (1)
 	{
-		// Faire le get next line puis verifier si built in sinon faire exeve
-		// father = fork();
-		// if (father > 0)
-		// 	wait(NULL);
-		// if (father == 0)
-		
-			var = run_shell(var);
+		prompt();
+		if (get_next_line(0, &ptr) == -1)
+			ft_putendl_fd("Error GNL", 2);
+		ptr = unspace_it(ptr);
+		ptr2 = ft_strsizesplit(ptr, ' ',&nb_arg);
+		if (nb_arg != 0 && built_in(ptr2, nb_arg) == 0)
+			run_shell(ptr2);
 	}
 	return (0);
 }

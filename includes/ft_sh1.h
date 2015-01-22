@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 10:23:59 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/20 14:57:02 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/22 14:03:30 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,18 @@
 # define C_CYAN         "\033[36m"
 # define C_GRAY         "\033[37m"
 
-typedef		struct  s_env
-{
-	char			**env;//
-	int				size_env;//
-	char			**path;//
-	int				nb_path;//
-	char			*user;//
-	char			*home;//
-	int				nb_arg;
-}					t_env;
-
-
-t_env		run_setenv(char *name, char *value, int overwrite, t_env *var);
-void	run_env(t_env *var);
-int		check_is_present(char *name, t_env var);
-t_env		run_unsetenv(char *name, int overwrite, t_env var);
+int 		built_in(char **ptr2, int nb_arg);
+void		run_setenv(char *name, char *value, int overwrite);
+void		run_env(void);
+int			check_is_present(char *name);
+int 		ft_count_env(void);
+void		run_unsetenv(char *name, int overwrite);
+char		*find_env(char *src);
+void		run_env(void);
+void		ft_dup_env(char **env, int argc, char **argv);
+void		run_cd(char **ptr2, int nb_arg);
+int 		check_if_is_directory(char **ptr2);
+void		run_old_path(void);
+void		set_old_path(void);
 
 #endif
