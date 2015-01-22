@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/22 11:58:20 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 14:34:33 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/22 16:25:35 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_dup_env(char **env, int argc, char **argv)
 
 char	*find_env(char *src)
 {
-	size_t i;
+	size_t	i;
 	char	*cmp;
 
 	i = 0;
@@ -64,4 +64,20 @@ void	run_env(void)
 		ft_putendl(g_env[i]);
 		i++;
 	}
+}
+
+int		nb_path(char *path)
+{
+	int i;
+	int nb;
+
+	i = 0;
+	nb = 0;
+	while (path[i])
+	{
+		if (path[i] == ':')
+			nb++;
+		i++;
+	}
+	return (nb + 1);
 }

@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/22 12:12:55 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 14:06:59 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/22 16:24:31 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 extern char	**g_env;
 
-int 	built_in(char **ptr2, int nb_arg)
+int		built_in(char **ptr2, int nb_arg)
 {
-	if (ft_strequ(ptr2[0],"exit"))
+	if (ft_strequ(ptr2[0], "exit"))
 		exit(EXIT_SUCCESS);
-	else if (ft_strequ(ptr2[0],"cd"))
+	else if (ft_strequ(ptr2[0], "cd"))
 	{
 		run_cd(ptr2, nb_arg);
 		return (1);
 	}
-	else if (ft_strequ(ptr2[0],"setenv"))
+	else if (ft_strequ(ptr2[0], "setenv"))
 	{
 		run_setenv(ptr2[1], ptr2[2], ft_atoi(ptr2[3]));
 		return (1);
 	}
-	else if (ft_strequ(ptr2[0],"env"))
+	else if (ft_strequ(ptr2[0], "env"))
 	{
 		run_env();
 		return (1);
 	}
-	else if (ft_strequ(ptr2[0],"unsetenv"))
+	else if (ft_strequ(ptr2[0], "unsetenv"))
 	{
 		run_unsetenv(ptr2[1], ft_atoi(ptr2[2]));
 		return (1);
@@ -41,13 +41,7 @@ int 	built_in(char **ptr2, int nb_arg)
 	return (0);
 }
 
-// void	run_old_path(void)
-// {
-// 	find_env("OLDPWD");
-// 	ch
-// }
-
-void 	run_cd(char **ptr2, int nb_arg)
+void	run_cd(char **ptr2, int nb_arg)
 {
 	char *path;
 
@@ -85,7 +79,7 @@ void 	run_cd(char **ptr2, int nb_arg)
 	}
 }
 
-int 	check_if_is_directory(char **ptr2)
+int		check_if_is_directory(char **ptr2)
 {
 	if (opendir(ptr2[1]) == NULL && ptr2[1] != NULL)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/14 15:57:34 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 13:51:28 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/22 16:26:59 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern char	**g_env;
 
-int 	lt_to_equ_sign(char *src)
+int		lt_to_equ_sign(char *src)
 {
 	int i;
 
@@ -29,7 +29,7 @@ int		check_is_present(char *name)
 	int i;
 
 	i = 0;
-	while(g_env[i] && g_env)
+	while (g_env[i] && g_env)
 	{
 		if (ft_strnequ(g_env[i], name, lt_to_equ_sign(g_env[i])))
 			return (i);
@@ -54,7 +54,7 @@ char	**ft_restralloc_no_free(char **map, int length)
 	return (map);
 }
 
-int 	ft_count_env(void)
+int		ft_count_env(void)
 {
 	int i;
 
@@ -64,7 +64,7 @@ int 	ft_count_env(void)
 	return (i);
 }
 
-void		run_setenv(char *name, char *value, int overwrite)
+void	run_setenv(char *name, char *value, int overwrite)
 {
 	int places_of_name;
 

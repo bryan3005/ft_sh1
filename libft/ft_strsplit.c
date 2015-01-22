@@ -6,13 +6,12 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/07 09:56:06 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/20 14:02:54 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/22 16:34:58 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
-
 
 char	*ft_strndup(const char *s, size_t length)
 {
@@ -31,7 +30,6 @@ char	*ft_strndup(const char *s, size_t length)
 	cpy[i] = '\0';
 	return (cpy);
 }
-
 
 size_t	ft_strclen(const char *s, char c)
 {
@@ -69,7 +67,6 @@ char	*ft_strcdup(const char *s, char c)
 	cpy = ft_strndup(s, ft_strclen(s, c));
 	return (cpy);
 }
-
 
 char	**ft_strsplit(char const *s, char c)
 {

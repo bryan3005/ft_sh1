@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 09:45:58 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 13:47:41 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/22 16:27:45 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**ft_restralloc2_no_free(char **map, int length, int find_place)
 		return (NULL);
 	map[length] = NULL;
 	while (++i < find_place)
-			map[i] = tmp[i];
+		map[i] = tmp[i];
 	while (i < length)
 	{
 		map[i] = tmp[i + 1];
@@ -35,9 +35,10 @@ char	**ft_restralloc2_no_free(char **map, int length, int find_place)
 	return (map);
 }
 
-void		run_unsetenv(char *name, int overwrite)
+void	run_unsetenv(char *name, int overwrite)
 {
 	int find_place;
+
 	find_place = check_is_present(name);
 	if (find_place == -1 || overwrite <= 0)
 		return ;

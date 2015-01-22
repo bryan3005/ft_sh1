@@ -1,3 +1,28 @@
+// ptr2
+// contient tt les argument passe au shell
+// ls -l tryme
+// ptr2[0] = ls
+// ptr2[1] = -l
+// ptr3[2] = tryme
+//chdir(const char *path);
+//getcwd(char *buf, size_t size);
+
+// dans runcd neccesite de faire un open dir puis readdir pour voir les 
+//fichier ouvrable par cd et du coup gestion de l erreur
+
+// Gestion erreur cd si 2 arg ou + (mess erreur diff)
+// gestion de l erreur si ce n est pas un directory
+
+// 	Attention pour l instant ne fait pas la differance entre n est pas un directory et n est pas un fichier present
+
+
+// Gestion du cd sans arg aui renvoi au path de la variable d environnement HOME
+
+// Peut etre faut il gere si cd recoit des option car non gere pour l instant
+
+
+
+
 Preliminaires
 De base
  
