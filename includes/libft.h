@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 14:45:37 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 16:29:28 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/23 18:59:32 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+char				*ft_strndup(const char *s, size_t length);
 char				*ft_strcdup(const char *src, char c);
 char				**ft_strsizesplit(char const *s, char c, int *size);
 int					ft_is_space(char c);

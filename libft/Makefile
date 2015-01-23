@@ -6,7 +6,7 @@
 #    By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/09 13:04:36 by mbryan            #+#    #+#              #
-#    Updated: 2015/01/21 17:22:16 by mbryan           ###   ########.fr        #
+#    Updated: 2015/01/23 18:59:47 by mbryan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	  ft_strstr.c ft_strsub.c ft_strtrim.c ft_tolower.c ft_toupper.c \
 	  ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c \
 	  ft_lstmap.c ft_intlen.c ft_isspace.c  ft_strsizesplit.c \
-	  ft_strcdup.c 
+	  ft_strcdup.c ft_strndup.c
 
 OBJ = $(SRC:.c=.o)
 
