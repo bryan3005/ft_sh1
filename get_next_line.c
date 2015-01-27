@@ -6,67 +6,45 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/25 10:37:52 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 16:31:03 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/26 11:57:48 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_to_fill(char **line, char **str, char *ptr)
+int		read_line(char **buf, int fd)
 {
-	char	*toto;
-	int		i;
+	char	buffer[BUFF_SIZE + 1];
+	int		read_bytes;
+	char	*tmp;
 
-	i = 0;
-	if (*ptr == '\n')
-		i = 1;
-	*ptr = 0;
-	*line = ft_strjoin("", *str);
-	toto = *str;
-	*str = ft_strjoin(ptr + 1, "");
-	free(toto);
-	return (i);
-}
-
-static int	ft_read(char **str, int fd)
-{
-	int		i;
-	char	buff[BUFF_SIZE + 1];
-	char	*ptr;
-
-	i = read(fd, buff, BUFF_SIZE);
-	if (i == -1)
-		return (-1);
-	buff[i] = 0;
-	ptr = *str;
-	*str = ft_strjoin(*str, buff);
-	if (*ptr != 0)
-		free(ptr);
-	return (i);
-}
-
-int			get_next_line(int const fd, char **line)
-{
-	static char *str;
-	int			i;
-	char		*ptr;
-
-	if (BUFF_SIZE < 1 || !line)
-		return (-1);
-	if (str == 0)
-		str = "";
-	i = BUFF_SIZE;
-	while (1)
+	read_bytes = 1;
+	while (ft_strstr(*buf, "\n") == NULL && read_bytes != 0)
 	{
-		ptr = str;
-		while (*ptr || i < BUFF_SIZE)
-		{
-			if (*ptr == '\n' || *ptr == 0 || *ptr == -1)
-				return (ft_to_fill(line, &str, ptr));
-			ptr++;
-		}
-		i = ft_read(&str, fd);
-		if (i == -1)
+		if ((read_bytes = read(fd, buffer, BUFF_SIZE)) == -1)
 			return (-1);
+		buffer[read_bytes] = '\0';
+		tmp = *buf;
+		*buf = ft_strjoin(*buf, buffer);
+		free(tmp);
+		ft_memset(buffer, 0, read_bytes);
 	}
+	return (read_bytes);
+}
+
+int		get_next_line(int const fd, char **line)
+{
+	static char	*buf;
+	char		*tmp;
+	int			read_bytes;
+
+	if (BUFF_SIZE > MAX_SIZE_BUFFER || BUFF_SIZE <= 0 || fd == 1)
+		return (-1);
+	if ((read_bytes = read_line(&buf, fd)) == -1)
+		return (-1);
+	*line = ft_strcdup(buf, '\n');
+	tmp = buf;
+	buf = ft_strdup(buf + ft_strclen(buf, '\n') + 1);
+	free(tmp);
+	return (read_bytes == 0) ? 0 : 1;
 }

@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/22 11:58:20 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 16:25:35 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/27 12:17:20 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,21 @@
 
 extern char	**g_env;
 
-void	ft_dup_env(char **env, int argc, char **argv)
+void	free_g_env(void)
 {
 	int i;
+
+	i = 0;
+	while (g_env[i] != NULL)
+	{
+		free(g_env[i]);
+	}
+}
+
+void	ft_dup_env(char **env, int argc, char **argv)
+{
+	int		i;
+	char	*shlvl;
 
 	(void)argc;
 	(void)argv;
@@ -27,9 +39,14 @@ void	ft_dup_env(char **env, int argc, char **argv)
 	g_env[i] = NULL;
 	while (i-- != 0)
 		g_env[i] = ft_strdup(env[i]);
-	i = ft_atoi(find_env("SHLVL"));
+	if (find_env("SHLVL") == NULL)
+		i = 0;
+	else
+		i = ft_atoi(find_env("SHLVL"));
 	i++;
-	run_setenv("SHLVL", ft_itoa(i), 1);
+	shlvl = ft_itoa(i);
+	run_setenv("SHLVL", shlvl, 1);
+	free(shlvl);
 }
 
 char	*find_env(char *src)
@@ -38,17 +55,15 @@ char	*find_env(char *src)
 	char	*cmp;
 
 	i = 0;
-	if (src == NULL)
-		return (NULL);
-	while (g_env[i] != NULL && g_env)
+	while (g_env[i] != NULL)
 	{
 		cmp = ft_strcdup(g_env[i], '=');
 		if (ft_strequ(src, cmp))
 		{
-			free (cmp);
+			free(cmp);
 			return (g_env[i] + ft_strlen(src) + 1);
 		}
-		free (cmp);
+		free(cmp);
 		i++;
 	}
 	return (NULL);
@@ -59,7 +74,7 @@ void	run_env(void)
 	int i;
 
 	i = 0;
-	while (g_env[i])
+	while (g_env[i] != NULL && g_env)
 	{
 		ft_putendl(g_env[i]);
 		i++;

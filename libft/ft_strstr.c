@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 10:44:04 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 00:05:49 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/26 12:41:05 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	*ft_strstr(const char *s1, const char *s2)
 	int		i;
 	char	*ptr;
 
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
 	i = 0;
 	ptr = (char *)s1;
 	if (!ptr[0] && !s2[0])
 		return (ptr);
-	if (s2 == NULL || s1 == NULL)
-		return (NULL);
 	while (*ptr)
 	{
 		if (*ptr == s2[0] || s2[0] == '\0')

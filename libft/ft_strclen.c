@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcdup.c                                       :+:      :+:    :+:   */
+/*   ft_strclen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/21 17:17:31 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/26 13:24:20 by mbryan           ###   ########.fr       */
+/*   Created: 2015/01/24 18:58:06 by mbryan            #+#    #+#             */
+/*   Updated: 2015/01/26 12:40:43 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
-char	*ft_strcdup(const char *s, char c)
+size_t	ft_strclen(const char *s, char c)
 {
-	char	*cpy;
+	size_t		i;
 
-	cpy = ft_strndup(s, ft_strclen(s, c));
-	return (cpy);
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	return (i);
 }

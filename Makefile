@@ -6,14 +6,15 @@
 #    By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/08 10:21:53 by mbryan            #+#    #+#              #
-#    Updated: 2015/01/22 12:25:22 by mbryan           ###   ########.fr        #
+#    Updated: 2015/01/26 13:00:46 by mbryan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = ft_minishell1
 
-OBJ = ft_sh1.o get_next_line.o ft_setenv.o ft_unsetenv.o tools_env.o built_in.o
+OBJ = ft_sh1.o get_next_line.o ft_setenv.o ft_unsetenv.o tools_env.o \
+		built_in.o cd.o other.o
 
 PATH_INCLUDES = includes/
 
@@ -42,6 +43,7 @@ clean :
 
 fclean : clean
 			rm -f $(NAME)
+			make -C libft/ fclean
 
 re : fclean all
 

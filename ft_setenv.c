@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/14 15:57:34 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 16:26:59 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/27 11:31:29 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int		check_is_present(char *name)
 	int i;
 
 	i = 0;
-	while (g_env[i] && g_env)
+	while (g_env[i] != NULL && g_env)
 	{
 		if (ft_strnequ(g_env[i], name, lt_to_equ_sign(g_env[i])))
-			return (i);
+			if (ft_strlen(name) == ft_strclen(g_env[i], '='))
+				return (i);
 		i++;
 	}
 	return (-1);
@@ -50,7 +51,7 @@ char	**ft_restralloc_no_free(char **map, int length)
 		return (NULL);
 	while (++i != length)
 		map[i] = tmp[i];
-	map[length + 1] = NULL;
+	map[i] = NULL;
 	return (map);
 }
 
@@ -59,29 +60,32 @@ int		ft_count_env(void)
 	int i;
 
 	i = 0;
-	while (g_env[i] && g_env)
+	while (g_env[i] != NULL && g_env)
 		i++;
 	return (i);
 }
 
 void	run_setenv(char *name, char *value, int overwrite)
 {
-	int places_of_name;
+	int		places_of_name;
+	char	*tmp;
 
-	if ((places_of_name = check_is_present(name)) != -1)
+	if ((places_of_name = check_is_present(name)) != -1 && overwrite != 0)
 	{
-		if (overwrite != 0)
-		{
-			g_env[places_of_name] = ft_strjoin(name, "=");
-			g_env[places_of_name] = ft_strjoin(g_env[places_of_name], value);
-		}
+		free(g_env[places_of_name]);
+		g_env[places_of_name] = ft_strjoin(name, "=");
+		tmp = g_env[places_of_name];
+		g_env[places_of_name] = ft_strjoin(g_env[places_of_name], value);
+		free(tmp);
 	}
-	else
+	else if (overwrite != 0)
 	{
 		places_of_name = ft_count_env();
 		g_env = ft_restralloc_no_free(g_env, places_of_name);
 		g_env[places_of_name] = ft_strjoin(name, "=");
+		tmp = g_env[places_of_name];
 		g_env[places_of_name] = ft_strjoin(g_env[places_of_name], value);
+		free(tmp);
 	}
 	return ;
 }

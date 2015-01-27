@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcdup.c                                       :+:      :+:    :+:   */
+/*   other.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/21 17:17:31 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/26 13:24:20 by mbryan           ###   ########.fr       */
+/*   Created: 2015/01/26 12:33:22 by mbryan            #+#    #+#             */
+/*   Updated: 2015/01/26 12:36:02 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "ft_sh1.h"
 
-char	*ft_strcdup(const char *s, char c)
+extern char	**g_env;
+
+void	ft_free_me(int nb_arg, char **ptr2, char **all_path)
 {
-	char	*cpy;
+	if (nb_arg != 0)
+		ft_freetabs(ptr2);
+	if (all_path != NULL)
+		ft_freetabs(all_path);
+}
 
-	cpy = ft_strndup(s, ft_strclen(s, c));
-	return (cpy);
+char	*make_joint_of_cmd(char **all_path, char **ptr2, int i)
+{
+	char	*cmd;
+	char	*tmp;
+
+	cmd = ft_strjoin(all_path[i - 1], "/");
+	tmp = cmd;
+	cmd = ft_strjoin(cmd, ptr2[0]);
+	free (tmp);
+	return (cmd);
 }

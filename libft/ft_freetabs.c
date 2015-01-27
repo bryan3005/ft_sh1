@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcdup.c                                       :+:      :+:    :+:   */
+/*   ft_freetabs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/21 17:17:31 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/26 13:24:20 by mbryan           ###   ########.fr       */
+/*   Created: 2015/01/23 19:45:21 by mbryan            #+#    #+#             */
+/*   Updated: 2015/01/26 12:41:20 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-char	*ft_strcdup(const char *s, char c)
+void	ft_freetabs(char **ptr)
 {
-	char	*cpy;
+	int i;
 
-	cpy = ft_strndup(s, ft_strclen(s, c));
-	return (cpy);
+	i = 0;
+	if (ptr == NULL)
+		return ;
+	while (ptr[i] != NULL)
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
 }

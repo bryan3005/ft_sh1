@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 10:23:59 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 16:30:33 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/26 12:34:38 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@
 #define C_CYAN         "\033[36m"
 #define C_GRAY         "\033[37m"
 
+void		free_g_env(void);
+void		makeprec(void);
+int			check_cd_access(char *bin_path);
+void		chdir_me(char *target);
 int			built_in(char **ptr2, int nb_arg);
 void		run_setenv(char *name, char *value, int overwrite);
 void		run_env(void);
@@ -47,5 +51,7 @@ int			check_if_is_directory(char **ptr2);
 void		run_old_path(void);
 void		set_old_path(void);
 int			nb_path(char *path);
+char		*make_joint_of_cmd(char **all_path, char **ptr2, int i);
+void		ft_free_me(int nb_arg, char **ptr2, char **all_path);
 
 #	endif

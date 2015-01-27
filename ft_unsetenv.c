@@ -6,7 +6,7 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 09:45:58 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 16:27:45 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/27 11:32:14 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@ char	**ft_restralloc2_no_free(char **map, int length, int find_place)
 	map = (char **)malloc((length + 1) * sizeof(char*));
 	if (map == NULL)
 		return (NULL);
-	map[length] = NULL;
 	while (++i < find_place)
-		map[i] = tmp[i];
-	while (i < length)
+		map[i] = ft_strdup(tmp[i]);
+	while (i < length - 1 && tmp[i] != NULL)
 	{
-		map[i] = tmp[i + 1];
+		map[i] = ft_strdup(tmp[i + 1]);
 		i++;
 	}
+	map[i] = NULL;
+	ft_freetabs(tmp);
 	return (map);
 }
 

@@ -6,22 +6,12 @@
 /*   By: mbryan <mbryan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/20 14:52:27 by mbryan            #+#    #+#             */
-/*   Updated: 2015/01/22 16:34:23 by mbryan           ###   ########.fr       */
+/*   Updated: 2015/01/24 18:59:36 by mbryan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
-
-static size_t	ft_strclen(const char *s, char c)
-{
-	size_t		i;
-
-	i = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	return (i);
-}
 
 static char		**ft_restralloc(char **map, int length, size_t size)
 {
